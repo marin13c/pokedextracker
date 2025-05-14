@@ -15,7 +15,7 @@ export default function Home() {
       .then((data) => setPokemons(data))
       .catch((err) => console.error("Error al cargar los Pokémon", err))
       .finally(() => setLoading(false));
-  }, [tab]); // Se ejecuta cada vez que cambia el tab
+  }, [tab]);
 
   const obtenidos = pokemons.filter((p) => p.obtenido === 1);
   const total = pokemons.length;
@@ -53,9 +53,11 @@ export default function Home() {
         </button>
       </div>
 
-      {/* Cargando... */}
+      {/* Loading Spinner */}
       {loading ? (
-        <p className="text-center text-gray-600">Cargando datos...</p>
+        <div className="flex justify-center items-center py-10">
+          <div className="w-10 h-10 border-4 border-blue-500 border-t-transparent rounded-full animate-spin"></div>
+        </div>
       ) : tab === "buscar" ? (
         <PokemonSearch pokemons={pokemons} setPokemons={setPokemons} />
       ) : tab === "progreso" ? (
