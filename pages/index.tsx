@@ -6,18 +6,20 @@ import ObtainedPokemonsList from "../components/ObtainedPokemonsList";
 export default function Home() {
   const [pokemons, setPokemons] = useState<any[]>([]);
   const [tab, setTab] = useState<"buscar" | "progreso" | "obtenidos">("buscar");
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
-    // Cargar el JSON desde la carpeta public
-    fetch("https://backend-pokedextcg.onrender.com/pokemon")  // Asegúrate de que la ruta sea correcta
+    setLoading(true);
+    fetch("https://backend-pokedextcg.onrender.com/pokemon")
       .then((res) => res.json())
       .then((data) => setPokemons(data))
-      .catch((err) => console.error("Error al cargar los Pokémon", err));
-  }, []);
+      .catch((err) => console.error("Error al cargar los Pokémon", err))
+      .finally(() => setLoading(false));
+  }, [tab]); // Se ejecuta cada vez que cambia el tab
 
   const obtenidos = pokemons.filter((p) => p.obtenido === 1);
   const total = pokemons.length;
-  const nombresObtenidos = obtenidos.map((p) => p.nombre); // Nombres de los Pokémon obtenidos
+  const nombresObtenidos = obtenidos.map((p) => p.nombre);
 
   return (
     <div className="p-6 font-sans max-w-xl mx-auto">
@@ -51,8 +53,10 @@ export default function Home() {
         </button>
       </div>
 
-      {/* Tab Content */}
-      {tab === "buscar" ? (
+      {/* Cargando... */}
+      {loading ? (
+        <p className="text-center text-gray-600">Cargando datos...</p>
+      ) : tab === "buscar" ? (
         <PokemonSearch pokemons={pokemons} setPokemons={setPokemons} />
       ) : tab === "progreso" ? (
         <ProgressChart
@@ -63,7 +67,7 @@ export default function Home() {
       ) : (
         <ObtainedPokemonsList
           nombresObtenidos={nombresObtenidos}
-          pokemons={pokemons} // Pasamos la lista completa de pokemones
+          pokemons={pokemons}
         />
       )}
     </div>
