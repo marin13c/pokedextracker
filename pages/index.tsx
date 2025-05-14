@@ -9,7 +9,7 @@ export default function Home() {
 
   useEffect(() => {
     // Cargar el JSON desde la carpeta public
-    fetch("http://192.168.100.12:3000/pokemon")  // Asegúrate de que la ruta sea correcta
+    fetch("https://backend-pokedextcg.onrender.com/pokemon")  // Asegúrate de que la ruta sea correcta
       .then((res) => res.json())
       .then((data) => setPokemons(data))
       .catch((err) => console.error("Error al cargar los Pokémon", err));

@@ -13,7 +13,7 @@ export default function PokemonSearch({
 
   useEffect(() => {
     // Cargar desde API externa
-    fetch("http://192.168.100.12:3000/pokemon")
+    fetch("https://backend-pokedextcg.onrender.com/pokemon")
       .then((response) => response.json())
       .then((data) => setPokemons(data))
       .catch((error) => console.error("Error al cargar el JSON:", error));
@@ -33,7 +33,7 @@ export default function PokemonSearch({
     const estado = 1;
 
     try {
-      await fetch(`http://192.168.100.12:3000/pokemon/${numero}/estado/${estado}`, {
+      await fetch(`https://backend-pokedextcg.onrender.com/pokemon/${numero}/estado/${estado}`, {
         method: "PUT",
       });
 
@@ -54,7 +54,7 @@ export default function PokemonSearch({
     const estado = 0;
 
     try {
-      await fetch(`http://192.168.100.12:3000/pokemon/${numero}/estado/${estado}`, {
+      await fetch(`https://backend-pokedextcg.onrender.com/pokemon/${numero}/estado/${estado}`, {
         method: "PUT",
       });
 
