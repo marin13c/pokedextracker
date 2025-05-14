@@ -22,56 +22,58 @@ export default function Home() {
   const nombresObtenidos = obtenidos.map((p) => p.nombre);
 
   return (
-    <div className="p-6 font-sans max-w-xl mx-auto">
-      <h1 className="text-2xl font-bold mb-4">Pokémon Tracker</h1>
+    <div className="bg-gradient-to-br from-sky-50 to-blue-100 min-h-screen p-6 font-sans">
+      <div className="max-w-2xl mx-auto bg-white shadow-lg rounded-2xl p-6">
+        <h1 className="text-3xl font-bold text-center text-blue-600 mb-6">
+          Pokémon Tracker
+        </h1>
 
-      {/* Tabs */}
-      <div className="flex mb-4 border-b">
-        <button
-          className={`px-4 py-2 font-medium ${
-            tab === "buscar" ? "border-b-2 border-blue-500" : "text-gray-500"
-          }`}
-          onClick={() => setTab("buscar")}
-        >
-          🔍 Buscar Pokémon
-        </button>
-        <button
-          className={`px-4 py-2 font-medium ${
-            tab === "progreso" ? "border-b-2 border-blue-500" : "text-gray-500"
-          }`}
-          onClick={() => setTab("progreso")}
-        >
-          📊 Progreso
-        </button>
-        <button
-          className={`px-4 py-2 font-medium ${
-            tab === "obtenidos" ? "border-b-2 border-blue-500" : "text-gray-500"
-          }`}
-          onClick={() => setTab("obtenidos")}
-        >
-          🎯 Pokémon Obtenidos
-        </button>
-      </div>
-
-      {/* Loading Spinner */}
-      {loading ? (
-        <div className="flex justify-center items-center py-10">
-          <div className="w-10 h-10 border-4 border-blue-500 border-t-transparent rounded-full animate-spin"></div>
+        {/* Tabs */}
+        <div className="flex justify-center space-x-2 mb-6">
+          {[
+            { key: "buscar", label: "🔍 Buscar" },
+            { key: "progreso", label: "📊 Progreso" },
+            { key: "obtenidos", label: "🎯 Obtenidos" },
+          ].map(({ key, label }) => (
+            <button
+              key={key}
+              className={`px-4 py-2 rounded-full font-medium transition ${
+                tab === key
+                  ? "bg-blue-500 text-white shadow"
+                  : "bg-gray-100 text-gray-600 hover:bg-gray-200"
+              }`}
+              onClick={() => setTab(key as any)}
+            >
+              {label}
+            </button>
+          ))}
         </div>
-      ) : tab === "buscar" ? (
-        <PokemonSearch pokemons={pokemons} setPokemons={setPokemons} />
-      ) : tab === "progreso" ? (
-        <ProgressChart
-          obtenidos={obtenidos.length}
-          total={total}
-          nombresObtenidos={nombresObtenidos}
-        />
-      ) : (
-        <ObtainedPokemonsList
-          nombresObtenidos={nombresObtenidos}
-          pokemons={pokemons}
-        />
-      )}
+
+        {/* Loading Spinner */}
+        {loading ? (
+          <div className="flex flex-col items-center justify-center py-10">
+            <div className="w-12 h-12 border-4 border-blue-500 border-t-transparent rounded-full animate-spin mb-4"></div>
+            <p className="text-blue-600 font-medium">Cargando Pokémon…</p>
+          </div>
+        ) : (
+          <div className="transition-all duration-300">
+            {tab === "buscar" ? (
+              <PokemonSearch pokemons={pokemons} setPokemons={setPokemons} />
+            ) : tab === "progreso" ? (
+              <ProgressChart
+                obtenidos={obtenidos.length}
+                total={total}
+                nombresObtenidos={nombresObtenidos}
+              />
+            ) : (
+              <ObtainedPokemonsList
+                nombresObtenidos={nombresObtenidos}
+                pokemons={pokemons}
+              />
+            )}
+          </div>
+        )}
+      </div>
     </div>
   );
 }
