@@ -1,5 +1,3 @@
-//update 
-
 import { useState, useEffect } from "react";
 import { toast } from "react-toastify";
 
@@ -14,62 +12,62 @@ export default function PokemonSearch({
   const [selected, setSelected] = useState<any>(null);
 
   useEffect(() => {
-    // Cargar el JSON desde la carpeta public
-    fetch("/pokemons.json")
+    // Cargar desde API externa
+    fetch("http://192.168.100.12:3000/pokemon")
       .then((response) => response.json())
       .then((data) => setPokemons(data))
       .catch((error) => console.error("Error al cargar el JSON:", error));
   }, []);
 
   const filtered = pokemons.filter((p) =>
-    p.Nombre.toLowerCase().includes(search.toLowerCase())
+    p.nombre.toLowerCase().includes(search.toLowerCase())
   );
 
   const handleSelect = (name: string) => {
-    const p = pokemons.find((p) => p.Nombre.toLowerCase() === name.toLowerCase());
+    const p = pokemons.find((p) => p.nombre.toLowerCase() === name.toLowerCase());
     setSelected(p);
   };
 
-  // Función para actualizar el campo "Obtenido" en el JSON local
-const updatePokemonInLocalFile = async (updatedPokemons: any[]) => {
-  try {
-    const response = await fetch("/api/updatePokemon", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ pokemons: updatedPokemons }),
-    });
-
-
-  } catch (error) {
-    console.error("Error al actualizar localmente:", error);
-    toast.error("Error al actualizar el archivo.");
-  }
-};
-
-  // Marcar como obtenido
   const markAsObtained = async () => {
-    const updatedPokemons = pokemons.map((p) =>
-      p.Nombre === selected.Nombre ? { ...p, Obtenido: 1 } : p
-    );
-    setPokemons(updatedPokemons);
-    setSelected({ ...selected, Obtenido: 1 });
-    toast.success(`¡${selected.Nombre} marcado como obtenido!`);
+    const numero = selected.numero;
+    const estado = 1;
 
-    // Actualizar el archivo local
-    await updatePokemonInLocalFile(updatedPokemons);
+    try {
+      await fetch(`http://192.168.100.12:3000/pokemon/${numero}/estado/${estado}`, {
+        method: "PUT",
+      });
+
+      const updatedPokemons = pokemons.map((p) =>
+        p.Nombre === selected.nombre ? { ...p, Obtenido: 1 } : p
+      );
+      setPokemons(updatedPokemons);
+      setSelected({ ...selected, Obtenido: 1 });
+      toast.success(`¡${selected.nombre} marcado como obtenido!`);
+    } catch (error) {
+      console.error("Error al actualizar en el backend:", error);
+      toast.error("Error al marcar como obtenido.");
+    }
   };
 
-  // Desmarcar como obtenido
   const unmarkAsObtained = async () => {
-    const updatedPokemons = pokemons.map((p) =>
-      p.Nombre === selected.Nombre ? { ...p, Obtenido: 0 } : p
-    );
-    setPokemons(updatedPokemons);
-    setSelected({ ...selected, Obtenido: 0 });
-    toast.success(`¡${selected.Nombre} desmarcado como obtenido!`);
+    const numero = selected.numero;
+    const estado = 0;
 
-    // Actualizar el archivo local
-    await updatePokemonInLocalFile(updatedPokemons);
+    try {
+      await fetch(`http://192.168.100.12:3000/pokemon/${numero}/estado/${estado}`, {
+        method: "PUT",
+      });
+
+      const updatedPokemons = pokemons.map((p) =>
+        p.nombre === selected.nombre ? { ...p, obtenido: 0 } : p
+      );
+      setPokemons(updatedPokemons);
+      setSelected({ ...selected, obtenido: 0 });
+      toast.success(`¡${selected.nombre} desmarcado como obtenido!`);
+    } catch (error) {
+      console.error("Error al actualizar en el backend:", error);
+      toast.error("Error al desmarcar como obtenido.");
+    }
   };
 
   return (
@@ -87,22 +85,22 @@ const updatePokemonInLocalFile = async (updatedPokemons: any[]) => {
       />
       <datalist id="pokemon-list">
         {filtered.map((p, i) => (
-          <option key={i} value={p.Nombre} />
+          <option key={i} value={p.nombre} />
         ))}
       </datalist>
 
       {selected && (
         <div className="mt-4 p-4 border rounded bg-gray-50 flex items-center gap-4">
           <img
-            src={`https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${selected.Nº}.png`}
-            alt={selected.Nombre}
+            src={`https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${selected.numero}.png`}
+            alt={selected.nombre}
             className="w-24 h-24"
           />
           <div>
-            <p><strong>N°:</strong> {selected.Nº}</p>
-            <p><strong>Nombre:</strong> {selected.Nombre}</p>
-            <p><strong>Obtenido:</strong> {selected.Obtenido ? "Sí" : "No"}</p>
-            {!selected.Obtenido ? (
+            <p><strong>N°:</strong> {selected.numero}</p>
+            <p><strong>Nombre:</strong> {selected.nombre}</p>
+            <p><strong>Obtenido:</strong> {selected.obtenido ? "Sí" : "No"}</p>
+            {!selected.obtenido ? (
               <button
                 onClick={markAsObtained}
                 className="mt-2 px-4 py-1 bg-blue-500 text-white rounded"

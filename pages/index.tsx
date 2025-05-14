@@ -9,15 +9,15 @@ export default function Home() {
 
   useEffect(() => {
     // Cargar el JSON desde la carpeta public
-    fetch("https://marin13c.github.io/pokedextcg/pokemons.json")  // Asegúrate de que la ruta sea correcta
+    fetch("http://192.168.100.12:3000/pokemon")  // Asegúrate de que la ruta sea correcta
       .then((res) => res.json())
       .then((data) => setPokemons(data))
       .catch((err) => console.error("Error al cargar los Pokémon", err));
   }, []);
 
-  const obtenidos = pokemons.filter((p) => p.Obtenido === 1);
+  const obtenidos = pokemons.filter((p) => p.obtenido === 1);
   const total = pokemons.length;
-  const nombresObtenidos = obtenidos.map((p) => p.Nombre); // Nombres de los Pokémon obtenidos
+  const nombresObtenidos = obtenidos.map((p) => p.nombre); // Nombres de los Pokémon obtenidos
 
   return (
     <div className="p-6 font-sans max-w-xl mx-auto">

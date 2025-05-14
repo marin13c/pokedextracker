@@ -11,11 +11,11 @@ export default function ObtainedPokemonsList({
     <div className="mt-4 grid grid-cols-3 gap-4">
       {nombresObtenidos.map((nombre, index) => {
         // Encontramos el Pokémon por nombre
-        const pokemon = pokemons.find((p) => p.Nombre === nombre);
+        const pokemon = pokemons.find((p) => p.nombre === nombre);
         if (!pokemon) return null;
 
         // URL de la imagen (puedes ajustar según tu fuente de imágenes)
-        const imageUrl = `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${pokemon.Nº}.png`;
+        const imageUrl = `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${pokemon.numero}.png`;
 
         return (
           <div
@@ -24,11 +24,11 @@ export default function ObtainedPokemonsList({
           >
             <img
               src={imageUrl}
-              alt={pokemon.Nombre}
+              alt={pokemon.nombre}
               className="w-24 h-24 mx-auto mb-2"
             />
-            <p className="font-semibold">{pokemon.Nº}</p>
-            <p>{pokemon.Nombre}</p>
+            <p className="font-semibold">{pokemon.numero}</p>
+            <p>{pokemon.nombre}</p>
           </div>
         );
       })}
