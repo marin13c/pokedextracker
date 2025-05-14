@@ -38,10 +38,10 @@ export default function PokemonSearch({
       });
 
       const updatedPokemons = pokemons.map((p) =>
-        p.Nombre === selected.nombre ? { ...p, Obtenido: 1 } : p
+        p.Nombre === selected.nombre ? { ...p, obtenido: 1 } : p
       );
       setPokemons(updatedPokemons);
-      setSelected({ ...selected, Obtenido: 1 });
+      setSelected({ ...selected, obtenido: 1 });
       toast.success(`¡${selected.nombre} marcado como obtenido!`);
     } catch (error) {
       console.error("Error al actualizar en el backend:", error);
