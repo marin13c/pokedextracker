@@ -13,7 +13,7 @@ export default function ObtainedPokemonsList({
     .sort((a, b) => a.numero - b.numero);
 
   return (
-    <div className="mt-4 grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4">
+    <div className="mt-4 grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-4 gap-4">
       {pokemonsObtenidos.map((pokemon) => {
         const imageUrl = `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${pokemon.numero}.png`;
 
