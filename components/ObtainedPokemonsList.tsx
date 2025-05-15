@@ -7,17 +7,19 @@ export default function ObtainedPokemonsList({
   nombresObtenidos,
   pokemons,
 }: ObtainedPokemonsListProps) {
+  // Filtrar los Pokémon obtenidos y ordenarlos por número
+  const pokemonsObtenidos = pokemons
+    .filter((p) => nombresObtenidos.includes(p.nombre))
+    .sort((a, b) => a.numero - b.numero);
+
   return (
     <div className="mt-4 grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4">
-      {nombresObtenidos.map((nombre, index) => {
-        const pokemon = pokemons.find((p) => p.nombre === nombre);
-        if (!pokemon) return null;
-
+      {pokemonsObtenidos.map((pokemon) => {
         const imageUrl = `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${pokemon.numero}.png`;
 
         return (
           <div
-            key={index}
+            key={pokemon.numero}
             className="bg-white shadow-md rounded-xl overflow-hidden text-center p-4 hover:shadow-lg transition transform hover:scale-105"
           >
             <img
