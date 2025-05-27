@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import PokemonSearch from "../components/PokemonSearch";
 import ProgressChart from "../components/ProgressChart";
 import ObtainedPokemonsList from "../components/ObtainedPokemonsList";
+import MissingPokemonsList from "../components/MissingPokemonsList";
 
 export default function Home() {
   const [pokemons, setPokemons] = useState<any[]>([]);
@@ -34,6 +35,7 @@ export default function Home() {
             { key: "buscar", label: "🔍 Buscar" },
             { key: "progreso", label: "📊 Progreso" },
             { key: "obtenidos", label: "🎯 Obtenidos" },
+            { key: "faltantes", label: "❌ Faltantes" },
           ].map(({ key, label }) => (
             <button
               key={key}
@@ -65,8 +67,13 @@ export default function Home() {
                 total={total}
                 nombresObtenidos={nombresObtenidos}
               />
-            ) : (
+            ) : tab === "obtenidos" ? (
               <ObtainedPokemonsList
+                nombresObtenidos={nombresObtenidos}
+                pokemons={pokemons}
+              />
+            ) : (
+              <MissingPokemonsList
                 nombresObtenidos={nombresObtenidos}
                 pokemons={pokemons}
               />
