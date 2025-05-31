@@ -30,25 +30,28 @@ export default function Home() {
         </h1>
 
         {/* Tabs */}
-        <div className="flex justify-center space-x-2 mb-6">
-          {[
-            { key: "buscar", label: "🔍 Buscar" },
-            { key: "progreso", label: "📊 Progreso" },
-            { key: "obtenidos", label: "🎯 Obtenidos" },
-            { key: "faltantes", label: "❌ Faltantes" },
-          ].map(({ key, label }) => (
-            <button
-              key={key}
-              className={`px-4 py-2 rounded-full font-medium transition ${
-                tab === key
-                  ? "bg-blue-500 text-white shadow"
-                  : "bg-gray-100 text-gray-600 hover:bg-gray-200"
-              }`}
-              onClick={() => setTab(key as any)}
-            >
-              {label}
-            </button>
-          ))}
+        {/* Tabs */}
+        <div className="overflow-x-auto mb-6">
+          <div className="flex justify-start sm:justify-center space-x-2 min-w-max whitespace-nowrap">
+            {[
+              { key: "buscar", label: "🔍 Buscar" },
+              { key: "progreso", label: "📊 Progreso" },
+              { key: "obtenidos", label: "🎯 Obtenidos" },
+              { key: "faltantes", label: "❌ Faltantes" },
+            ].map(({ key, label }) => (
+              <button
+                key={key}
+                className={`px-4 py-2 rounded-full font-medium transition shrink-0 ${
+                  tab === key
+                    ? "bg-blue-500 text-white shadow"
+                    : "bg-gray-100 text-gray-600 hover:bg-gray-200"
+                }`}
+                onClick={() => setTab(key as any)}
+              >
+                {label}
+              </button>
+            ))}
+          </div>
         </div>
 
         {/* Loading Spinner */}
