@@ -31,7 +31,10 @@ export default function PokemonSearch({
   };
 
   const handleClickOutside = (e: MouseEvent) => {
-    if (containerRef.current && !(containerRef.current as any).contains(e.target)) {
+    if (
+      containerRef.current &&
+      !(containerRef.current as any).contains(e.target)
+    ) {
       setShowSuggestions(false);
     }
   };
@@ -46,9 +49,12 @@ export default function PokemonSearch({
     const estado = 1;
 
     try {
-      await fetch(`https://backend-pokedextcg.onrender.com/pokemon/${numero}/estado/${estado}`, {
-        method: "PUT",
-      });
+      await fetch(
+        `https://backend-pokedextcg.onrender.com/pokemon/${numero}/estado/${estado}`,
+        {
+          method: "PUT",
+        }
+      );
 
       const updatedPokemons = pokemons.map((p) =>
         p.nombre === selected.nombre ? { ...p, obtenido: 1 } : p
@@ -67,9 +73,12 @@ export default function PokemonSearch({
     const estado = 0;
 
     try {
-      await fetch(`https://backend-pokedextcg.onrender.com/pokemon/${numero}/estado/${estado}`, {
-        method: "PUT",
-      });
+      await fetch(
+        `https://backend-pokedextcg.onrender.com/pokemon/${numero}/estado/${estado}`,
+        {
+          method: "PUT",
+        }
+      );
 
       const updatedPokemons = pokemons.map((p) =>
         p.nombre === selected.nombre ? { ...p, obtenido: 0 } : p
@@ -94,7 +103,9 @@ export default function PokemonSearch({
           onChange={(e) => {
             setSearch(e.target.value);
             setShowSuggestions(true);
-            const p = pokemons.find((p) => p.nombre.toLowerCase() === e.target.value.toLowerCase());
+            const p = pokemons.find(
+              (p) => p.nombre.toLowerCase() === e.target.value.toLowerCase()
+            );
             setSelected(p || null);
           }}
           onFocus={() => setShowSuggestions(true)}
@@ -122,7 +133,9 @@ export default function PokemonSearch({
             className="w-28 h-28 sm:w-32 sm:h-32"
           />
           <div>
-            <p className="text-lg font-semibold text-blue-600">N°: {selected.numero}</p>
+            <p className="text-lg font-semibold text-blue-600">
+              N°: {selected.numero}
+            </p>
             <p className="text-xl font-bold">{selected.nombre}</p>
             <p className="mt-1 text-gray-600">
               <strong>Obtenido:</strong> {selected.obtenido ? "Sí" : "No"}
